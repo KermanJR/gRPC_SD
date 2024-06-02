@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package taskscheduler;
+
+service TaskScheduler {
+    rpc Register (RegisterRequest) returns (RegisterResponse);
+    rpc Authenticate (AuthRequest) returns (AuthResponse);
+    rpc ScheduleTask (TaskRequest) returns (TaskResponse);
+    rpc GetTaskStatus (TaskStatusRequest) returns (TaskStatusResponse);
+    rpc ListTasks (ListTasksRequest) returns (ListTasksResponse);
+    rpc ListHistory (ListHistoryRequest) returns (ListHistoryResponse);
+}
+
+message RegisterRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message RegisterResponse {
+    string message = 1;
+}
+
+message AuthRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message AuthResponse {
+    string token = 1;
+}
+
+message TaskRequest {
+    string name = 1;
+    string description = 2;
+    string schedule_time = 3; // ISO 8601 format
+}
+
+message TaskResponse {
+    string task_id = 1;
+    string status = 2;
+    string worker_id = 3;
+}
+
+message TaskStatusRequest {
+    string task_id = 1;
+}
+
+message TaskStatusResponse {
+    string task_id = 1;
+    string status = 2;
+    string details = 3;
+    string worker_id = 4;
+}
+
+message ListTasksRequest {}
+
+message TaskInfo {
+    string task_id = 1;
+    string name = 2;
+    string status = 3;
+    string worker_id = 4;
+    string priority = 5;
+}
+
+message ListTasksResponse {
+    repeated TaskInfo tasks = 1;
+}
+
+message ListHistoryRequest {}
+
+message HistoryEntry {
+    string task_id = 1;
+    string name = 2;
+    string description = 3;
+    string worker_id = 4;
+    string completion_time = 5;
+    string priority = 6;
+}
+
+message ListHistoryResponse {
+    repeated HistoryEntry history = 1;
+}
