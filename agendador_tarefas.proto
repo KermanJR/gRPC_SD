@@ -3,30 +3,13 @@ syntax = "proto3";
 package taskscheduler;
 
 service TaskScheduler {
-    rpc Register (RegisterRequest) returns (RegisterResponse);
-    rpc Authenticate (AuthRequest) returns (AuthResponse);
     rpc ScheduleTask (TaskRequest) returns (TaskResponse);
     rpc GetTaskStatus (TaskStatusRequest) returns (TaskStatusResponse);
     rpc ListTasks (ListTasksRequest) returns (ListTasksResponse);
     rpc ListHistory (ListHistoryRequest) returns (ListHistoryResponse);
-}
-
-message RegisterRequest {
-    string username = 1;
-    string password = 2;
-}
-
-message RegisterResponse {
-    string message = 1;
-}
-
-message AuthRequest {
-    string username = 1;
-    string password = 2;
-}
-
-message AuthResponse {
-    string token = 1;
+    rpc AddWorker(WorkerRequest) returns (WorkerResponse);
+    rpc RemoveWorker(WorkerRequest) returns (WorkerResponse);
+    rpc GetLogs(LogRequest) returns (LogResponse);
 }
 
 message TaskRequest {
@@ -59,7 +42,6 @@ message TaskInfo {
     string name = 2;
     string status = 3;
     string worker_id = 4;
-    string priority = 5;
 }
 
 message ListTasksResponse {
@@ -74,9 +56,24 @@ message HistoryEntry {
     string description = 3;
     string worker_id = 4;
     string completion_time = 5;
-    string priority = 6;
 }
 
 message ListHistoryResponse {
     repeated HistoryEntry history = 1;
+}
+
+message WorkerRequest {
+    string worker_id = 1;
+}
+
+message WorkerResponse {
+    string status = 1;
+}
+
+message LogRequest {
+    string query = 1; 
+}
+
+message LogResponse {
+    repeated string logs = 1;
 }

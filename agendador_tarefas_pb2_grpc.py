@@ -39,16 +39,6 @@ class TaskSchedulerStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.Register = channel.unary_unary(
-                '/taskscheduler.TaskScheduler/Register',
-                request_serializer=agendador__tarefas__pb2.RegisterRequest.SerializeToString,
-                response_deserializer=agendador__tarefas__pb2.RegisterResponse.FromString,
-                _registered_method=True)
-        self.Authenticate = channel.unary_unary(
-                '/taskscheduler.TaskScheduler/Authenticate',
-                request_serializer=agendador__tarefas__pb2.AuthRequest.SerializeToString,
-                response_deserializer=agendador__tarefas__pb2.AuthResponse.FromString,
-                _registered_method=True)
         self.ScheduleTask = channel.unary_unary(
                 '/taskscheduler.TaskScheduler/ScheduleTask',
                 request_serializer=agendador__tarefas__pb2.TaskRequest.SerializeToString,
@@ -73,18 +63,6 @@ class TaskSchedulerStub(object):
 
 class TaskSchedulerServicer(object):
     """Missing associated documentation comment in .proto file."""
-
-    def Register(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def Authenticate(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
 
     def ScheduleTask(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -113,16 +91,6 @@ class TaskSchedulerServicer(object):
 
 def add_TaskSchedulerServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'Register': grpc.unary_unary_rpc_method_handler(
-                    servicer.Register,
-                    request_deserializer=agendador__tarefas__pb2.RegisterRequest.FromString,
-                    response_serializer=agendador__tarefas__pb2.RegisterResponse.SerializeToString,
-            ),
-            'Authenticate': grpc.unary_unary_rpc_method_handler(
-                    servicer.Authenticate,
-                    request_deserializer=agendador__tarefas__pb2.AuthRequest.FromString,
-                    response_serializer=agendador__tarefas__pb2.AuthResponse.SerializeToString,
-            ),
             'ScheduleTask': grpc.unary_unary_rpc_method_handler(
                     servicer.ScheduleTask,
                     request_deserializer=agendador__tarefas__pb2.TaskRequest.FromString,
@@ -153,60 +121,6 @@ def add_TaskSchedulerServicer_to_server(servicer, server):
  # This class is part of an EXPERIMENTAL API.
 class TaskScheduler(object):
     """Missing associated documentation comment in .proto file."""
-
-    @staticmethod
-    def Register(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/taskscheduler.TaskScheduler/Register',
-            agendador__tarefas__pb2.RegisterRequest.SerializeToString,
-            agendador__tarefas__pb2.RegisterResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
-
-    @staticmethod
-    def Authenticate(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/taskscheduler.TaskScheduler/Authenticate',
-            agendador__tarefas__pb2.AuthRequest.SerializeToString,
-            agendador__tarefas__pb2.AuthResponse.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
 
     @staticmethod
     def ScheduleTask(request,
