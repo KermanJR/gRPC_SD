@@ -1,21 +1,40 @@
 syntax = "proto3";
 
-package taskscheduler;
-
 service TaskScheduler {
-    rpc ScheduleTask (TaskRequest) returns (TaskResponse);
-    rpc GetTaskStatus (TaskStatusRequest) returns (TaskStatusResponse);
-    rpc ListTasks (ListTasksRequest) returns (ListTasksResponse);
-    rpc ListHistory (ListHistoryRequest) returns (ListHistoryResponse);
-    rpc AddWorker(WorkerRequest) returns (WorkerResponse);
-    rpc RemoveWorker(WorkerRequest) returns (WorkerResponse);
-    rpc GetLogs(LogRequest) returns (LogResponse);
+    rpc RegisterUser(RegisterRequest) returns (UserResponse);
+    rpc LoginUser(LoginRequest) returns (LoginResponse);
+    rpc ScheduleTask(TaskRequest) returns (TaskResponse);
+    rpc GetTaskStatus(TaskStatusRequest) returns (TaskStatusResponse);
+    rpc ListTasks(ListTasksRequest) returns (ListTasksResponse);
+    rpc ListHistory(ListHistoryRequest) returns (ListHistoryResponse);
+}
+
+message RegisterRequest {
+    string email = 1;
+    string name = 2;
+    string password = 3;
+}
+
+message LoginRequest {
+    string email = 1;
+    string name = 2;
+    string password = 3;
+}
+
+message LoginResponse {
+    string token = 1;
+    bool is_admin = 2;
+    string name = 3; 
+}
+message UserResponse {
+    string user_id = 1;
+    string message = 2;
 }
 
 message TaskRequest {
     string name = 1;
     string description = 2;
-    string schedule_time = 3; // ISO 8601 format
+    string schedule_time = 3;
 }
 
 message TaskResponse {
@@ -40,8 +59,11 @@ message ListTasksRequest {}
 message TaskInfo {
     string task_id = 1;
     string name = 2;
-    string status = 3;
-    string worker_id = 4;
+    string description = 3;
+    string schedule_time = 4;
+    string status = 5;
+    string worker_id = 6;
+    string completion_time = 7;
 }
 
 message ListTasksResponse {
@@ -60,20 +82,4 @@ message HistoryEntry {
 
 message ListHistoryResponse {
     repeated HistoryEntry history = 1;
-}
-
-message WorkerRequest {
-    string worker_id = 1;
-}
-
-message WorkerResponse {
-    string status = 1;
-}
-
-message LogRequest {
-    string query = 1; 
-}
-
-message LogResponse {
-    repeated string logs = 1;
 }

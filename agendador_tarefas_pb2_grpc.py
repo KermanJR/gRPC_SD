@@ -39,23 +39,33 @@ class TaskSchedulerStub(object):
         Args:
             channel: A grpc.Channel.
         """
+        self.RegisterUser = channel.unary_unary(
+                '/TaskScheduler/RegisterUser',
+                request_serializer=agendador__tarefas__pb2.RegisterRequest.SerializeToString,
+                response_deserializer=agendador__tarefas__pb2.UserResponse.FromString,
+                _registered_method=True)
+        self.LoginUser = channel.unary_unary(
+                '/TaskScheduler/LoginUser',
+                request_serializer=agendador__tarefas__pb2.LoginRequest.SerializeToString,
+                response_deserializer=agendador__tarefas__pb2.LoginResponse.FromString,
+                _registered_method=True)
         self.ScheduleTask = channel.unary_unary(
-                '/taskscheduler.TaskScheduler/ScheduleTask',
+                '/TaskScheduler/ScheduleTask',
                 request_serializer=agendador__tarefas__pb2.TaskRequest.SerializeToString,
                 response_deserializer=agendador__tarefas__pb2.TaskResponse.FromString,
                 _registered_method=True)
         self.GetTaskStatus = channel.unary_unary(
-                '/taskscheduler.TaskScheduler/GetTaskStatus',
+                '/TaskScheduler/GetTaskStatus',
                 request_serializer=agendador__tarefas__pb2.TaskStatusRequest.SerializeToString,
                 response_deserializer=agendador__tarefas__pb2.TaskStatusResponse.FromString,
                 _registered_method=True)
         self.ListTasks = channel.unary_unary(
-                '/taskscheduler.TaskScheduler/ListTasks',
+                '/TaskScheduler/ListTasks',
                 request_serializer=agendador__tarefas__pb2.ListTasksRequest.SerializeToString,
                 response_deserializer=agendador__tarefas__pb2.ListTasksResponse.FromString,
                 _registered_method=True)
         self.ListHistory = channel.unary_unary(
-                '/taskscheduler.TaskScheduler/ListHistory',
+                '/TaskScheduler/ListHistory',
                 request_serializer=agendador__tarefas__pb2.ListHistoryRequest.SerializeToString,
                 response_deserializer=agendador__tarefas__pb2.ListHistoryResponse.FromString,
                 _registered_method=True)
@@ -63,6 +73,18 @@ class TaskSchedulerStub(object):
 
 class TaskSchedulerServicer(object):
     """Missing associated documentation comment in .proto file."""
+
+    def RegisterUser(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def LoginUser(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def ScheduleTask(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -91,6 +113,16 @@ class TaskSchedulerServicer(object):
 
 def add_TaskSchedulerServicer_to_server(servicer, server):
     rpc_method_handlers = {
+            'RegisterUser': grpc.unary_unary_rpc_method_handler(
+                    servicer.RegisterUser,
+                    request_deserializer=agendador__tarefas__pb2.RegisterRequest.FromString,
+                    response_serializer=agendador__tarefas__pb2.UserResponse.SerializeToString,
+            ),
+            'LoginUser': grpc.unary_unary_rpc_method_handler(
+                    servicer.LoginUser,
+                    request_deserializer=agendador__tarefas__pb2.LoginRequest.FromString,
+                    response_serializer=agendador__tarefas__pb2.LoginResponse.SerializeToString,
+            ),
             'ScheduleTask': grpc.unary_unary_rpc_method_handler(
                     servicer.ScheduleTask,
                     request_deserializer=agendador__tarefas__pb2.TaskRequest.FromString,
@@ -113,14 +145,68 @@ def add_TaskSchedulerServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'taskscheduler.TaskScheduler', rpc_method_handlers)
+            'TaskScheduler', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('taskscheduler.TaskScheduler', rpc_method_handlers)
+    server.add_registered_method_handlers('TaskScheduler', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
 class TaskScheduler(object):
     """Missing associated documentation comment in .proto file."""
+
+    @staticmethod
+    def RegisterUser(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/TaskScheduler/RegisterUser',
+            agendador__tarefas__pb2.RegisterRequest.SerializeToString,
+            agendador__tarefas__pb2.UserResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def LoginUser(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/TaskScheduler/LoginUser',
+            agendador__tarefas__pb2.LoginRequest.SerializeToString,
+            agendador__tarefas__pb2.LoginResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
 
     @staticmethod
     def ScheduleTask(request,
@@ -136,7 +222,7 @@ class TaskScheduler(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/taskscheduler.TaskScheduler/ScheduleTask',
+            '/TaskScheduler/ScheduleTask',
             agendador__tarefas__pb2.TaskRequest.SerializeToString,
             agendador__tarefas__pb2.TaskResponse.FromString,
             options,
@@ -163,7 +249,7 @@ class TaskScheduler(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/taskscheduler.TaskScheduler/GetTaskStatus',
+            '/TaskScheduler/GetTaskStatus',
             agendador__tarefas__pb2.TaskStatusRequest.SerializeToString,
             agendador__tarefas__pb2.TaskStatusResponse.FromString,
             options,
@@ -190,7 +276,7 @@ class TaskScheduler(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/taskscheduler.TaskScheduler/ListTasks',
+            '/TaskScheduler/ListTasks',
             agendador__tarefas__pb2.ListTasksRequest.SerializeToString,
             agendador__tarefas__pb2.ListTasksResponse.FromString,
             options,
@@ -217,7 +303,7 @@ class TaskScheduler(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/taskscheduler.TaskScheduler/ListHistory',
+            '/TaskScheduler/ListHistory',
             agendador__tarefas__pb2.ListHistoryRequest.SerializeToString,
             agendador__tarefas__pb2.ListHistoryResponse.FromString,
             options,

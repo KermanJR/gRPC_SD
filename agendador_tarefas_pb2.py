@@ -14,33 +14,41 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x17\x61gendador_tarefas.proto\x12\rtaskscheduler\"G\n\x0bTaskRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\x12\x15\n\rschedule_time\x18\x03 \x01(\t\"B\n\x0cTaskResponse\x12\x0f\n\x07task_id\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\t\x12\x11\n\tworker_id\x18\x03 \x01(\t\"$\n\x11TaskStatusRequest\x12\x0f\n\x07task_id\x18\x01 \x01(\t\"Y\n\x12TaskStatusResponse\x12\x0f\n\x07task_id\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\t\x12\x0f\n\x07\x64\x65tails\x18\x03 \x01(\t\x12\x11\n\tworker_id\x18\x04 \x01(\t\"\x12\n\x10ListTasksRequest\"L\n\x08TaskInfo\x12\x0f\n\x07task_id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0e\n\x06status\x18\x03 \x01(\t\x12\x11\n\tworker_id\x18\x04 \x01(\t\";\n\x11ListTasksResponse\x12&\n\x05tasks\x18\x01 \x03(\x0b\x32\x17.taskscheduler.TaskInfo\"\x14\n\x12ListHistoryRequest\"n\n\x0cHistoryEntry\x12\x0f\n\x07task_id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x11\n\tworker_id\x18\x04 \x01(\t\x12\x17\n\x0f\x63ompletion_time\x18\x05 \x01(\t\"C\n\x13ListHistoryResponse\x12,\n\x07history\x18\x01 \x03(\x0b\x32\x1b.taskscheduler.HistoryEntry2\xd4\x02\n\rTaskScheduler\x12G\n\x0cScheduleTask\x12\x1a.taskscheduler.TaskRequest\x1a\x1b.taskscheduler.TaskResponse\x12T\n\rGetTaskStatus\x12 .taskscheduler.TaskStatusRequest\x1a!.taskscheduler.TaskStatusResponse\x12N\n\tListTasks\x12\x1f.taskscheduler.ListTasksRequest\x1a .taskscheduler.ListTasksResponse\x12T\n\x0bListHistory\x12!.taskscheduler.ListHistoryRequest\x1a\".taskscheduler.ListHistoryResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x17\x61gendador_tarefas.proto\"@\n\x0fRegisterRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x10\n\x08password\x18\x03 \x01(\t\"=\n\x0cLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x10\n\x08password\x18\x03 \x01(\t\">\n\rLoginResponse\x12\r\n\x05token\x18\x01 \x01(\t\x12\x10\n\x08is_admin\x18\x02 \x01(\x08\x12\x0c\n\x04name\x18\x03 \x01(\t\"0\n\x0cUserResponse\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\"G\n\x0bTaskRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\x12\x15\n\rschedule_time\x18\x03 \x01(\t\"B\n\x0cTaskResponse\x12\x0f\n\x07task_id\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\t\x12\x11\n\tworker_id\x18\x03 \x01(\t\"$\n\x11TaskStatusRequest\x12\x0f\n\x07task_id\x18\x01 \x01(\t\"Y\n\x12TaskStatusResponse\x12\x0f\n\x07task_id\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\t\x12\x0f\n\x07\x64\x65tails\x18\x03 \x01(\t\x12\x11\n\tworker_id\x18\x04 \x01(\t\"\x12\n\x10ListTasksRequest\"\x91\x01\n\x08TaskInfo\x12\x0f\n\x07task_id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x15\n\rschedule_time\x18\x04 \x01(\t\x12\x0e\n\x06status\x18\x05 \x01(\t\x12\x11\n\tworker_id\x18\x06 \x01(\t\x12\x17\n\x0f\x63ompletion_time\x18\x07 \x01(\t\"-\n\x11ListTasksResponse\x12\x18\n\x05tasks\x18\x01 \x03(\x0b\x32\t.TaskInfo\"\x14\n\x12ListHistoryRequest\"n\n\x0cHistoryEntry\x12\x0f\n\x07task_id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x11\n\tworker_id\x18\x04 \x01(\t\x12\x17\n\x0f\x63ompletion_time\x18\x05 \x01(\t\"5\n\x13ListHistoryResponse\x12\x1e\n\x07history\x18\x01 \x03(\x0b\x32\r.HistoryEntry2\xc1\x02\n\rTaskScheduler\x12/\n\x0cRegisterUser\x12\x10.RegisterRequest\x1a\r.UserResponse\x12*\n\tLoginUser\x12\r.LoginRequest\x1a\x0e.LoginResponse\x12+\n\x0cScheduleTask\x12\x0c.TaskRequest\x1a\r.TaskResponse\x12\x38\n\rGetTaskStatus\x12\x12.TaskStatusRequest\x1a\x13.TaskStatusResponse\x12\x32\n\tListTasks\x12\x11.ListTasksRequest\x1a\x12.ListTasksResponse\x12\x38\n\x0bListHistory\x12\x13.ListHistoryRequest\x1a\x14.ListHistoryResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'agendador_tarefas_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_TASKREQUEST']._serialized_start=42
-  _globals['_TASKREQUEST']._serialized_end=113
-  _globals['_TASKRESPONSE']._serialized_start=115
-  _globals['_TASKRESPONSE']._serialized_end=181
-  _globals['_TASKSTATUSREQUEST']._serialized_start=183
-  _globals['_TASKSTATUSREQUEST']._serialized_end=219
-  _globals['_TASKSTATUSRESPONSE']._serialized_start=221
-  _globals['_TASKSTATUSRESPONSE']._serialized_end=310
-  _globals['_LISTTASKSREQUEST']._serialized_start=312
-  _globals['_LISTTASKSREQUEST']._serialized_end=330
-  _globals['_TASKINFO']._serialized_start=332
-  _globals['_TASKINFO']._serialized_end=408
-  _globals['_LISTTASKSRESPONSE']._serialized_start=410
-  _globals['_LISTTASKSRESPONSE']._serialized_end=469
-  _globals['_LISTHISTORYREQUEST']._serialized_start=471
-  _globals['_LISTHISTORYREQUEST']._serialized_end=491
-  _globals['_HISTORYENTRY']._serialized_start=493
-  _globals['_HISTORYENTRY']._serialized_end=603
-  _globals['_LISTHISTORYRESPONSE']._serialized_start=605
-  _globals['_LISTHISTORYRESPONSE']._serialized_end=672
-  _globals['_TASKSCHEDULER']._serialized_start=675
-  _globals['_TASKSCHEDULER']._serialized_end=1015
+  _globals['_REGISTERREQUEST']._serialized_start=27
+  _globals['_REGISTERREQUEST']._serialized_end=91
+  _globals['_LOGINREQUEST']._serialized_start=93
+  _globals['_LOGINREQUEST']._serialized_end=154
+  _globals['_LOGINRESPONSE']._serialized_start=156
+  _globals['_LOGINRESPONSE']._serialized_end=218
+  _globals['_USERRESPONSE']._serialized_start=220
+  _globals['_USERRESPONSE']._serialized_end=268
+  _globals['_TASKREQUEST']._serialized_start=270
+  _globals['_TASKREQUEST']._serialized_end=341
+  _globals['_TASKRESPONSE']._serialized_start=343
+  _globals['_TASKRESPONSE']._serialized_end=409
+  _globals['_TASKSTATUSREQUEST']._serialized_start=411
+  _globals['_TASKSTATUSREQUEST']._serialized_end=447
+  _globals['_TASKSTATUSRESPONSE']._serialized_start=449
+  _globals['_TASKSTATUSRESPONSE']._serialized_end=538
+  _globals['_LISTTASKSREQUEST']._serialized_start=540
+  _globals['_LISTTASKSREQUEST']._serialized_end=558
+  _globals['_TASKINFO']._serialized_start=561
+  _globals['_TASKINFO']._serialized_end=706
+  _globals['_LISTTASKSRESPONSE']._serialized_start=708
+  _globals['_LISTTASKSRESPONSE']._serialized_end=753
+  _globals['_LISTHISTORYREQUEST']._serialized_start=755
+  _globals['_LISTHISTORYREQUEST']._serialized_end=775
+  _globals['_HISTORYENTRY']._serialized_start=777
+  _globals['_HISTORYENTRY']._serialized_end=887
+  _globals['_LISTHISTORYRESPONSE']._serialized_start=889
+  _globals['_LISTHISTORYRESPONSE']._serialized_end=942
+  _globals['_TASKSCHEDULER']._serialized_start=945
+  _globals['_TASKSCHEDULER']._serialized_end=1266
 # @@protoc_insertion_point(module_scope)
