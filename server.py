@@ -9,6 +9,8 @@ import jwt
 import sqlite3
 import agendador_tarefas_pb2
 import agendador_tarefas_pb2_grpc
+from datetime import datetime, timezone, timedelta
+import pytz
 
 # Chave secreta para codificação e decodificação JWT
 SECRET_KEY = "your_secret_key"
@@ -46,7 +48,7 @@ class TaskSchedulerServicer(agendador_tarefas_pb2_grpc.TaskSchedulerServicer):
         self.task_status = {}
         self.task_worker = {}
         self.task_queue = queue.Queue()
-        self.workers = ["worker-1", "worker-2"]
+        self.workers = ["worker-1", "worker-2", "worker-3", "worker-4", "worker-5", "worker-6", "worker-7", "worker-8", "worker-9"]
         self.lock = threading.Lock()
         self.history = []
         threading.Thread(target=self.worker_manager, daemon=True).start()
@@ -73,7 +75,7 @@ class TaskSchedulerServicer(agendador_tarefas_pb2_grpc.TaskSchedulerServicer):
         self.task_queue.put(task_id)
         self.save_task_to_db(task_id, request)
         
-        return agendador_tarefas_pb2.TaskResponse(task_id=task_id, status="Scheduled", worker_id="")
+        return agendador_tarefas_pb2.TaskResponse(task_id=task_id, status="Agendada", worker_id="")
 
     def GetTaskStatus(self, request, context):
         metadata = dict(context.invocation_metadata())
@@ -132,26 +134,56 @@ class TaskSchedulerServicer(agendador_tarefas_pb2_grpc.TaskSchedulerServicer):
         conn = sqlite3.connect('tasks.db')
         c = conn.cursor()
         c.execute("INSERT INTO tasks (task_id, name, description, schedule_time, status) VALUES (?, ?, ?, ?, ?)",
-                  (task_id, task.name, task.description, task.schedule_time, 'Scheduled'))
+                  (task_id, task.name, task.description, task.schedule_time, 'Agendada'))
         conn.commit()
         conn.close()
 
     def execute_task(self, task_id):
         task = self.tasks[task_id]
+        scheduled_time = datetime.fromisoformat(task.schedule_time).astimezone(pytz.timezone('America/Campo_Grande'))
+
+        print(datetime.now(pytz.timezone('America/Campo_Grande')).strftime('%Y-%m-%d %H:%M:%S'))
+        print(scheduled_time.strftime('%Y-%m-%d %H:%S:%M'))
+        # Aguardar até que seja a hora de executar a tarefa
+        while datetime.now(pytz.timezone('America/Campo_Grande')).strftime('%Y-%m-%d %H:%M:%S')< scheduled_time.strftime('%Y-%m-%d %H:%S:%M'):
+            time.sleep(10)  # Checa a condição a cada 10 segundos
+
+        # Executar a tarefa
         worker_id = self.get_available_worker()
         self.task_worker[task_id] = worker_id
-        print(f"Assigning task {task_id} to {worker_id}")
-        time.sleep(5)
-        self.task_status[task_id] = "Completed"
-        completion_time = datetime.utcnow().isoformat()
-        self.history.append(agendador_tarefas_pb2.HistoryEntry(
-            task_id=task_id,
-            name=task.name,
-            description=task.description,
-            worker_id=worker_id,
-            completion_time=completion_time
-        ))
-        print(f"Task {task_id} completed by {worker_id}")
+        start_time = datetime.now(pytz.timezone('America/Campo_Grande'))
+        print(f"Atribuindo tarefa {task_id} ao {worker_id}.")
+
+        # Simular execução da tarefa
+        time.sleep(5)  # Simulação de tempo de execução da tarefa
+
+        end_time = datetime.now(pytz.timezone('America/Campo_Grande'))
+        execution_time = (end_time - start_time).total_seconds()
+        self.task_status[task_id] = "Completa"
+
+        conn = sqlite3.connect('tasks.db')
+        c = conn.cursor()
+        c.execute("""
+            UPDATE tasks
+            SET name = ?, description = ?, schedule_time = ?, status = 'Completa', worker_id = ?, completion_time = ?
+            WHERE task_id = ?""",
+            (task.name, task.description, task.schedule_time, worker_id, end_time.isoformat(), task_id))
+        conn.commit()
+        conn.close()
+
+        # Registrar no histórico
+        self.history.append({
+            'task_id': task_id,
+            'name': task.name,
+            'description': task.description,
+            'worker_id': worker_id,
+            'completion_time': end_time.isoformat(),
+            'execution_time': execution_time  # Tempo de execução em segundos
+        })
+
+        print(f"Tarefa {task_id} concluída por {worker_id} em {execution_time} segundos.")
+
+
 
     def get_available_worker(self):
         with self.lock:
@@ -168,9 +200,10 @@ class TaskSchedulerServicer(agendador_tarefas_pb2_grpc.TaskSchedulerServicer):
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     agendador_tarefas_pb2_grpc.add_TaskSchedulerServicer_to_server(TaskSchedulerServicer(), server)
-    server.add_insecure_port('192.168.1.5:50051')
+    server.add_insecure_port('192.168.100.45:50051')
+
     server.start()
-    print("Server started at 192.168.1.5:50051")
+    print("Server started at 192.168.100.45:50051")
     server.wait_for_termination()
 
 if __name__ == "__main__":
